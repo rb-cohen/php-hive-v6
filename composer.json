@@ -1,0 +1,23 @@
+{
+    "name": "rb-cohen/gb-hive-v6",
+    "description": "PHP SDK for controlling Hive using the v6 API",
+    "type": "library",
+    "require": {
+        "nategood/httpful": "^0.2.20"
+    },
+    "require-dev": {
+        "zendframework/zend-text": "^2.6"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Arron Woods",
+            "email": "me@arronwoods.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "HiveSDK\\": "src/HiveSDK"
+        }
+    }
+}
