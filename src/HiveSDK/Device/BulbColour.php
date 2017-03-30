@@ -10,26 +10,10 @@ class BulbColour extends BulbWhite {
         $helper = new Colour();
         $hsv = $helper->auto($colour);
 
-        $this->client->put('/nodes/' . $this->id, [
-            'nodes' => [
-                [
-                    "attributes" => [
-                        "hsvHue" => [
-                            "targetValue" => $hsv[0]
-                        ],
-                        "hsvSaturation" => [
-                            "targetValue" => $hsv[1]
-                        ],
-                        "hsvValue" => [
-                            "targetValue" => $hsv[2]
-                        ],
-                        "colourMode" => [
-                            "targetValue" => "COLOUR"
-                        ]
-                    ]
-                ]
-            ]
-        ]);
+        $this->getWorkUnit()->set('attributes/hsvHue/targetValue', $hsv[0]);
+        $this->getWorkUnit()->set('attributes/hsvSaturation/targetValue', $hsv[1]);
+        $this->getWorkUnit()->set('attributes/hsvValue/targetValue', $hsv[2]);
+        $this->getWorkUnit()->set('attributes/colourMode/targetValue', 'COLOUR');
     }
 
 }

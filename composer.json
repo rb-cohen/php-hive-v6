@@ -3,7 +3,8 @@
     "description": "PHP SDK for controlling Hive using the v6 API",
     "type": "library",
     "require": {
-        "nategood/httpful": "^0.2.20"
+        "nategood/httpful": "^0.2.20",
+        "guzzlehttp/guzzle": "^6.2"
     },
     "require-dev": {
         "zendframework/zend-text": "^2.6"

@@ -12,21 +12,21 @@ class Devices{
     }
 
     public function all(){
-        return $this->client->get('/nodes')->body->nodes;
+        return $this->client->get('/nodes')->nodes;
     }
 
     public function id($id){
         $response = $this->client->get('/nodes/' . $id);
 
-        if(empty($response->body->nodes)){
+        if(empty($response->nodes)){
             throw new \RuntimeException('Device not found');
         }
 
-        if(count($response->body->nodes) > 1){
+        if(count($response->nodes) > 1){
             throw new \RuntimeException('More than one device returned');
         }
 
-        return $response->body->nodes[0];
+        return $response->nodes[0];
     }
 
 }

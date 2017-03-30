@@ -5,6 +5,7 @@ $authentication = require(__DIR__ . '/_buildAuthentication.php');
 
 $id = null;
 $brightness = null;
+$colour = null;
 $on = false;
 $off = false;
 
@@ -51,3 +52,5 @@ if($on){
 if($off){
     $bulb->off();
 }
+
+$bulb->apply();

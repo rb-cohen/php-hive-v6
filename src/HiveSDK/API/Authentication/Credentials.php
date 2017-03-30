@@ -16,13 +16,11 @@ class Credentials implements AuthenticationInterface {
         $this->password = $password;
     }
 
-    public function authenticateRequest(Request $request){
+    public function authenticateRequest(\GuzzleHttp\Psr7\Request $request){
         $sessionId = $this->login();
 
         $sessionAuth = new SessionId($sessionId, $this);
-        $sessionAuth->authenticateRequest($request);
-
-        return $sessionAuth;
+        return $sessionAuth->authenticateRequest($request);
     }
 
     /**
@@ -42,7 +40,7 @@ class Credentials implements AuthenticationInterface {
             ]
         ]);
 
-        $sessionId = (empty($response->body->sessions[0]->sessionId)? null : $response->body->sessions[0]->sessionId);
+        $sessionId = (empty($response->sessions[0]->sessionId)? null : $response->sessions[0]->sessionId);
 
         if(empty($sessionId)){
             throw new \RuntimeException('Login did not return session ID');

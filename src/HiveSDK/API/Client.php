@@ -31,39 +31,37 @@ class Client{
     public function get($path){
         $url = $this->buildFullUrl($path);
 
-        $request = Request::get($url);
-        $this->applyRequestDefaults($request);
-        $this->authenticateRequest($request);
+        $request = new \GuzzleHttp\Psr7\Request('GET', $url);
+        $request = $this->applyRequestDefaults($request);
+        $request = $this->authenticateRequest($request);
 
-        $response = $request->send();
-
-        return $response;
+        return $this->makeRequest($request);
     }
 
     public function post($path, $payload){
         $url = $this->buildFullUrl($path);
 
-        $request = Request::post($url);
-        $request->body(json_encode($payload));
-        $this->applyRequestDefaults($request);
-        $this->authenticateRequest($request);
+        $request = new \GuzzleHttp\Psr7\Request('POST', $url);
 
-        $response = $request->send();
+        $body = \GuzzleHttp\Psr7\stream_for(\GuzzleHttp\json_encode($payload));
+        $request = $request->withBody($body);
+        $request = $this->applyRequestDefaults($request);
+        $request = $this->authenticateRequest($request);
 
-        return $response;
+        return $this->makeRequest($request);
     }
 
     public function put($path, $payload){
         $url = $this->buildFullUrl($path);
 
-        $request = Request::put($url);
-        $request->body(json_encode($payload));
-        $this->applyRequestDefaults($request);
-        $this->authenticateRequest($request);
+        $request = new \GuzzleHttp\Psr7\Request('PUT', $url);
 
-        $response = $request->send();
+        $body = \GuzzleHttp\Psr7\stream_for(\GuzzleHttp\json_encode($payload));
+        $request = $request->withBody($body);
+        $request = $this->applyRequestDefaults($request);
+        $request = $this->authenticateRequest($request);
 
-        return $response;
+        return $this->makeRequest($request);
     }
 
     /**
@@ -75,25 +73,35 @@ class Client{
     }
 
     /**
-     * @param Request $request
-     * @return $this
+     * @param \GuzzleHttp\Psr7\Request $request
+     * @return mixed
      */
-    protected function applyRequestDefaults(Request $request){
-        $request->expects('json')
-            ->addHeader('Content-Type', 'application/vnd.alertme.zoo-6.1+json')
-            ->addHeader('Accept', 'application/vnd.alertme.zoo-6.1+json')
-            ->addHeader('X-Omnia-Client', 'Hive Web Dashboard');
+    protected function makeRequest(\GuzzleHttp\Psr7\Request $request){
+        $http = new \GuzzleHttp\Client();
+        $response = $http->send($request);
 
-        return $this;
+        return \GuzzleHttp\json_decode($response->getBody());
     }
 
     /**
-     * @param Request $request
-     * @return $this
+     * @param \GuzzleHttp\Psr7\Request $request
+     * @return \GuzzleHttp\Psr7\MessageTrait|\GuzzleHttp\Psr7\Request
      */
-    protected function authenticateRequest(Request $request){
-        $this->authentication = $this->authentication->authenticateRequest($request);
-        return $this;
+    protected function applyRequestDefaults(\GuzzleHttp\Psr7\Request $request){
+        $request = $request->withHeader('Content-Type', 'application/vnd.alertme.zoo-6.1+json');
+        $request = $request->withHeader('Accept', 'application/vnd.alertme.zoo-6.1+json');
+        $request = $request->withHeader('X-Omnia-Client', 'X-Omnia-Client');
+        return $request;
+    }
+
+    /**
+     * @param \GuzzleHttp\Psr7\Request $request
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function authenticateRequest(\GuzzleHttp\Psr7\Request $request){
+        $result = $this->authentication->authenticateRequest($request);
+        $this->authentication = $result->authentication;
+        return $result->request;
     }
 
 }

@@ -26,4 +26,4 @@ while($key = array_shift($arguments)){
 $client = new \HiveSDK\API\Client($authentication);
 
 $plug = new \HiveSDK\Device\SmartPlug($id, $client);
-$plug->$method();
+$plug->$method()->apply();

@@ -2,10 +2,12 @@
 
 namespace HiveSDK\API\Authentication;
 
-use Httpful\Request;
-
 interface AuthenticationInterface{
 
-    public function authenticateRequest(Request $request);
+    /**
+     * @param \GuzzleHttp\Psr7\Request $request
+     * @return AuthenticationResult
+     */
+    public function authenticateRequest(\GuzzleHttp\Psr7\Request $request);
 
 }

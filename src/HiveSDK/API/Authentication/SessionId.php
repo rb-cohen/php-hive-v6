@@ -15,13 +15,9 @@ class SessionId implements AuthenticationInterface {
         $this->credentials = $fromCredentials;
     }
 
-    /**
-     * @param Request $request
-     * @return $this
-     */
-    public function authenticateRequest(Request $request){
-        $request->addHeader('X-Omnia-Access-Token', $this->id);
-        return $this;
+    public function authenticateRequest(\GuzzleHttp\Psr7\Request $request){
+        $request = $request->withHeader('X-Omnia-Access-Token', $this->id);
+        return new AuthenticationResult($this, $request);
     }
 
 }
