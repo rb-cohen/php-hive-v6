@@ -1,5 +1,5 @@
 {
-    "name": "rb-cohen/gb-hive-v6",
+    "name": "rb-cohen/bg-hive-v6",
     "description": "PHP SDK for controlling Hive using the v6 API",
     "type": "library",
     "require": {
