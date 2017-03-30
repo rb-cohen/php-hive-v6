@@ -31,3 +31,19 @@ $plug = new SmartPlug($id, $client);
 $plug->on()
      ->apply();
 ```
+
+## Control colour bulb
+### Using the CLI script
+`$ php bin/bulb.php --username test@test.com --password 12345 --id <id> --brightness 50 --colour rgb(255, 221, 211) --on`
+
+### Using the SDK
+```php
+$authentication = new Credentials($username, $password);
+$client = new Client($authentication);
+
+$bulb = new BulbColour($id, $client);
+$bulb->on()
+     ->setBrightness(50)
+     ->setColour('#ff0000')
+     ->apply();
+```
