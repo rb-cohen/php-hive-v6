@@ -2,7 +2,7 @@
 Hive home heating and smart devices PHP SDK
 
 ## Install
-`$ composer require rb-cohen/bg-hive-v6:dev-master`
+`$ composer require rb-cohen/php-hive-v6:dev-master`
 
 ## List devices
 
